@@ -28,8 +28,7 @@ class UpdateRoomRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'hotel_id' => ['integer', 'exists:hotels,id'],
-            'number' => ['string', 'max:255'],
+            'number' => ['integer'],
             'description' => ['string', 'max:65535'],
             'status' => ['string', 'max:255'],
         ];

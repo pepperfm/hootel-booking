@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Room\StoreRoomRequest;
 use App\Http\Requests\Room\UpdateRoomRequest;
+use App\Models\Hotel;
 use App\Models\Room;
 
 class RoomController extends Controller
@@ -11,7 +12,7 @@ class RoomController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): \Illuminate\Http\JsonResponse
     {
         return response()->json([
             'rooms' => Room::all(),
@@ -21,11 +22,13 @@ class RoomController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRoomRequest $request)
+    public function store(StoreRoomRequest $request, Hotel $hotel): \Illuminate\Http\JsonResponse
     {
         $room = new Room($request->validated());
-        $room->hotel()->associate($request->input('hotel_id'));
-        $room->save();
+        /**
+         * @see https://laravel.com/docs/11.x/eloquent-relationships#the-save-method
+         */
+        $hotel->rooms()->save($room);
 
         return response()->json([
             'room' => $room,

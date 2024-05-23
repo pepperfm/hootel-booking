@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use App\Enums\RoomStatusEnum;
 
 class Room extends Model
 {
@@ -11,6 +13,22 @@ class Room extends Model
         'description',
         'status',
     ];
+
+    protected $casts = [
+        'status' => RoomStatusEnum::class,
+    ];
+
+    /**
+     * @see https://laravel.com/docs/11.x/eloquent-mutators#defining-an-accessor
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function isAvailable(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->status === RoomStatusEnum::Available,
+        );
+    }
 
     public function hotel(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

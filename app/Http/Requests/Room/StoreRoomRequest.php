@@ -3,7 +3,9 @@
 namespace App\Http\Requests\Room;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use App\Traits\WithFailedApiValidation;
+use App\Enums\RoomStatusEnum;
 
 /**
  * @see https://laravel.com/docs/11.x/validation#form-request-validation
@@ -28,10 +30,12 @@ class StoreRoomRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'hotel_id' => ['required', 'integer', 'exists:hotels,id'],
-            'number' => ['required', 'string', 'max:255'],
+            'number' => ['required', 'integer'],
             'description' => ['required', 'string', 'max:65535'],
-            'status' => ['required', 'string', 'max:255'],
+            /**
+             * @see https://laravel.com/docs/11.x/validation#rule-enum
+             */
+            'status' => ['required', 'string', Rule::enum(RoomStatusEnum::class)],
         ];
     }
 }

@@ -28,7 +28,8 @@ class UpdateBookingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'start_date' => ['date', 'after:today', 'before:end_date'],
+            'end_date' => ['date', 'after:start_date'],
         ];
     }
 }

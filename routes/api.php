@@ -13,9 +13,13 @@ Route::post('register', [AuthController::class, 'register'])->middleware('guest'
 Route::post('login', [AuthController::class, 'login'])->middleware('guest');
 Route::get('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
-Route::apiResources([
-    'hotels' => HotelController::class,
-    'rooms' => RoomController::class,
-    'bookings' => BookingController::class,
-    'reviews' => ReviewController::class,
-]);
+Route::group([
+    'middleware' => 'auth:sanctum',
+], static function () {
+    Route::post('hotels', [HotelController::class, 'store']);
+    Route::get('hotels/{hotel}/rooms', [RoomController::class, 'index']);
+    Route::post('hotels/{hotel}/rooms', [RoomController::class, 'store']);
+    Route::get('hotels/{hotel}/rooms/{room}/bookings', [BookingController::class, 'index']);
+    Route::post('hotels/{hotel}/rooms/{room}/bookings', [BookingController::class, 'store']);
+    Route::delete('hotels/{hotel}/rooms/{room}/bookings/{booking}', [BookingController::class, 'cancel']);
+});
