@@ -3,12 +3,15 @@
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\WithFailedApiValidation;
 
 /**
  * @see https://laravel.com/docs/11.x/validation#form-request-validation
  */
 class RegisterRequest extends FormRequest
 {
+    use WithFailedApiValidation;
+
     /**
      * Determine if the user is authorized to make this request.
      */
