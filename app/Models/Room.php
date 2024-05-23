@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use App\Enums\RoomStatusEnum;
 
 class Room extends Model
@@ -28,6 +29,14 @@ class Room extends Model
         return Attribute::make(
             get: fn() => $this->status === RoomStatusEnum::Available,
         );
+    }
+
+    /**
+     * @see https://laravel.com/docs/11.x/eloquent#local-scopes
+     */
+    public function scopeAvailable(Builder $builder): void
+    {
+        $builder->where('status', RoomStatusEnum::Available);
     }
 
     public function hotel(): \Illuminate\Database\Eloquent\Relations\BelongsTo

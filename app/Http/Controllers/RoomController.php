@@ -15,7 +15,7 @@ class RoomController extends Controller
     public function index(): \Illuminate\Http\JsonResponse
     {
         return response()->json([
-            'rooms' => Room::all(),
+            'rooms' => Room::available()->get(),
         ]);
     }
 
