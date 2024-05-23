@@ -1,10 +1,13 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Hotel;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest
+/**
+ * @see https://laravel.com/docs/11.x/validation#form-request-validation
+ */
+class UpdateHotelRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +25,10 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email:rfc,dns', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'name' => ['string', 'max:255'],
+            'description' => ['string', 'max:65535'],
+            'address' => ['string', 'max:255'],
+            'city' => ['string', 'max:255'],
         ];
     }
 }

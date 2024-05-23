@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreHotelRequest;
-use App\Http\Requests\UpdateHotelRequest;
+use App\Http\Requests\Hotel\StoreHotelRequest;
+use App\Http\Requests\Hotel\UpdateHotelRequest;
 use App\Models\Hotel;
 
 class HotelController extends Controller
@@ -21,7 +21,9 @@ class HotelController extends Controller
      */
     public function store(StoreHotelRequest $request)
     {
-        //
+        return response()->json([
+            'hotel' => Hotel::create($request->validated()),
+        ], 201);
     }
 
     /**

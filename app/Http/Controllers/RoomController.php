@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreRoomRequest;
-use App\Http\Requests\UpdateRoomRequest;
+use App\Http\Requests\Room\StoreRoomRequest;
+use App\Http\Requests\Room\UpdateRoomRequest;
 use App\Models\Room;
 
 class RoomController extends Controller
@@ -13,7 +13,9 @@ class RoomController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json([
+            'rooms' => Room::all(),
+        ]);
     }
 
     /**
@@ -21,7 +23,13 @@ class RoomController extends Controller
      */
     public function store(StoreRoomRequest $request)
     {
-        //
+        $room = new Room($request->validated());
+        $room->hotel()->associate($request->input('hotel_id'));
+        $room->save();
+
+        return response()->json([
+            'room' => $room,
+        ]);
     }
 
     /**

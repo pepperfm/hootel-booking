@@ -1,17 +1,20 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Room;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreReviewRequest extends FormRequest
+/**
+ * @see https://laravel.com/docs/11.x/validation#form-request-validation
+ */
+class StoreRoomRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +25,10 @@ class StoreReviewRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'hotel_id' => ['required', 'integer', 'exists:hotels,id'],
+            'number' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string', 'max:65535'],
+            'status' => ['required', 'string', 'max:255'],
         ];
     }
 }

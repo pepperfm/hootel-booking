@@ -1,17 +1,20 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateBookingRequest extends FormRequest
+/**
+ * @see https://laravel.com/docs/11.x/validation#form-request-validation
+ */
+class LoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +25,8 @@ class UpdateBookingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'email' => ['required', 'email:rfc,dns', 'exists:users'],
+            'password' => ['required', 'string', 'min:8'],
         ];
     }
 }

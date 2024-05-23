@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -19,6 +19,13 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * @see https://laravel.com/docs/11.x/sanctum#issuing-api-tokens
+     *
+     * @param \App\Http\Requests\Auth\LoginRequest $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function login(LoginRequest $request): \Illuminate\Http\JsonResponse
     {
         $user = User::where('email', $request->input('email'))->first();
@@ -36,6 +43,9 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * @see https://laravel.com/docs/11.x/sanctum#revoking-mobile-api-tokens
+     */
     public function logout(): \Illuminate\Http\JsonResponse
     {
         request()->user()->tokens()->delete();
