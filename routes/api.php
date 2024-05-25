@@ -2,12 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ReviewController;
 
-Route::get('user', static fn() => request()->user())->middleware('auth:sanctum');
+Route::get('user', [UserController::class, 'show'])->name('user.show')
+    ->middleware('auth:sanctum');
+Route::put('user', [UserController::class, 'update'])->name('user.update')
+    ->middleware('auth:sanctum');
 
 Route::post('register', [AuthController::class, 'register'])->middleware('guest');
 Route::post('login', [AuthController::class, 'login'])->middleware('guest');
